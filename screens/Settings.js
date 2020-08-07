@@ -3,7 +3,7 @@ import { StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import Slider from 'react-native-slider';
 
 import * as constants from '../constants';
-import { Button, Block, Text, Divider } from '../components';
+import { Button, Block, Text, Divider, Switch } from '../components';
 
 class Settings extends Component {
   static navigationOptions = {
@@ -11,17 +11,31 @@ class Settings extends Component {
   };
 
   state = {
-    budget: null,
-    monthlyCap: null,
+    budget: 100,
+    monthlyCap: 100,
+    notifications: false,
+    newsletter: false,
+    editing: null,
+    profile: {},
   };
+
+  toggleEdit() {
+    const { editing } = this.state;
+    this.setState({ editing: !editing ? name : null });
+  }
+
+  renderEdit() {
+    const { profile, editing } = this.state;
+  }
 
   componentDidMount() {
     const { profile } = this.props.route.params;
-    this.setState({ budget: profile.budget, monthlyCap: profile.monthlyCap });
+    const { budget, monthlyCap, notifications, newsletter } = profile;
+    this.setState({ budget, monthlyCap, notifications, newsletter, profile });
   }
 
   render() {
-    const { profile } = this.props.route.params;
+    const { profile } = this.state;
 
     return (
       <Block style={{ backgroundColor: 'white' }}>
@@ -41,9 +55,10 @@ class Settings extends Component {
                 <Text gray2 style={{ marginBottom: 10 }}>
                   Username
                 </Text>
+                {this.renderEdit('username')}
                 <Text bold>{profile.username}</Text>
               </Block>
-              <Text medium secondary>
+              <Text medium secondary onPress={() => this.toggleEdit('username')}>
                 Edit
               </Text>
             </Block>
@@ -89,7 +104,7 @@ class Settings extends Component {
                 onValueChange={(value) => this.setState({ budget: value })}
               />
               <Text caption gray right>
-                ${this.state.budget}
+                ${this.state.budget.toFixed(0)}
               </Text>
             </Block>
 
@@ -107,14 +122,44 @@ class Settings extends Component {
                 onValueChange={(value) => this.setState({ monthlyCap: value })}
               />
               <Text caption gray right>
-                ${this.state.monthlyCap}
+                ${this.state.monthlyCap.toFixed(0)}
               </Text>
             </Block>
           </Block>
 
           <Divider />
 
-          <Block></Block>
+          <Block style={styles.toggles}>
+            <Block
+              row
+              cener
+              space="between"
+              style={{ marginBottom: constants.theme.sizes.base * 2 }}>
+              <Text size={16} gray2>
+                Notifications
+              </Text>
+              <Switch
+                style={styles.toggle}
+                value={this.state.notifications}
+                onValueChange={(value) => this.setState({ notifications: value })}
+              />
+            </Block>
+
+            <Block
+              row
+              cener
+              space="between"
+              style={{ marginBottom: constants.theme.sizes.base * 2 }}>
+              <Text size={16} gray2>
+                Newsletter
+              </Text>
+              <Switch
+                style={styles.toggle}
+                value={this.state.newsletter}
+                onValueChange={(value) => this.setState({ newsletter: value })}
+              />
+            </Block>
+          </Block>
         </ScrollView>
       </Block>
     );
@@ -139,7 +184,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   sliders: {
-    marginTop: constants.theme.sizes.base * 0.7,
     paddingHorizontal: constants.theme.sizes.base * 2,
   },
   thumb: {
@@ -149,5 +193,11 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3,
     backgroundColor: constants.theme.colors.secondary,
+  },
+  toggles: {
+    paddingHorizontal: constants.theme.sizes.base * 2,
+  },
+  toggle: {
+    transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }],
   },
 });
