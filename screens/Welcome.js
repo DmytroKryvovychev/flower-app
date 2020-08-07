@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, Dimensions, Image, FlatList, StyleSheet } from 'react-native';
+import { Animated, Dimensions, Image, FlatList, StyleSheet, Modal, ScrollView } from 'react-native';
 
 import * as constants from '../constants';
 import { Button, Block, Text } from '../components';
@@ -13,7 +13,67 @@ class Welcome extends Component {
 
   scrollX = new Animated.Value(0);
 
-  state = {};
+  state = {
+    showTerms: false,
+  };
+
+  renderTermsService() {
+    return (
+      <Modal animationType="slide" visible={this.state.showTerms}>
+        <Block
+          padding={(constants.theme.sizes.padding * 2, constants.theme.sizes.padding)}
+          space="between">
+          <Text h2 light>
+            Terms of Service
+          </Text>
+
+          <ScrollView contentContainerStyle={{ paddingVertical: constants.theme.sizes.padding }}>
+            <Text caption gray height={18}>
+              You agree that by accessing the Site, you have read, understood, and agree to be bound
+              by all of these Terms and Conditions. If you do not agree with all of these Terms and
+              Conditions, then you are expressly prohibited from using the Site and you must
+              discontinue use immediately.
+            </Text>
+            <Text caption gray height={18}>
+              Supplemental terms and conditions or documents that may be posted on the Site from
+              time to time are hereby expressly incorporated herein by reference. We reserve the
+              right, in our sole discretion, to make changes or modifications to these Terms and
+              Conditions at any time and for any reason.
+            </Text>
+            <Text caption gray height={18}>
+              It is your responsibility to periodically review these Terms and Conditions to stay
+              informed of updates. You will be subject to, and will be deemed to have been made
+              aware of and to have accepted, the changes in any revised Terms and Conditions by your
+              continued use of the Site after the date such revised Terms and Conditions are posted.
+            </Text>
+            <Text caption gray height={18}>
+              You agree that by accessing the Site, you have read, understood, and agree to be bound
+              by all of these Terms and Conditions. If you do not agree with all of these Terms and
+              Conditions, then you are expressly prohibited from using the Site and you must
+              discontinue use immediately.
+            </Text>
+            <Text caption gray height={18}>
+              Supplemental terms and conditions or documents that may be posted on the Site from
+              time to time are hereby expressly incorporated herein by reference. We reserve the
+              right, in our sole discretion, to make changes or modifications to these Terms and
+              Conditions at any time and for any reason.
+            </Text>
+            <Text caption gray height={18}>
+              It is your responsibility to periodically review these Terms and Conditions to stay
+              informed of updates. You will be subject to, and will be deemed to have been made
+              aware of and to have accepted, the changes in any revised Terms and Conditions by your
+              continued use of the Site after the date such revised Terms and Conditions are posted.
+            </Text>
+          </ScrollView>
+          <Button gradient onPress={() => this.setState({ showTerms: false })}>
+            <Text center white>
+              I understand
+            </Text>
+          </Button>
+        </Block>
+      </Modal>
+    );
+  }
 
   renderIllustrations() {
     const { illustrations } = this.props;
@@ -32,7 +92,7 @@ class Welcome extends Component {
           <Image
             source={item.source}
             resizeMode="contain"
-            style={{ width, height: height / 2, overflow: 'visible' }}
+            style={{ width, height: height / 2.4, overflow: 'visible' }}
           />
         )}
         onScroll={(event) =>
@@ -78,9 +138,11 @@ class Welcome extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+
     return (
-      <Block white>
-        <Block flex={0.5} center middle>
+      <Block style={{ backgroundColor: 'white' }} top>
+        <Block flex={0.6} center bottom style={{ marginBottom: 20 }}>
           <Text h1 center bold>
             Your Home.
             <Text h1 primary>
@@ -91,25 +153,29 @@ class Welcome extends Component {
             Enjoy the experience.
           </Text>
         </Block>
-        <Block center middle>
+        <Block flex={1.3} center middle>
           {this.renderIllustrations()}
           {this.renderSteps()}
         </Block>
-        {/* <Block middle flex={0.5} margin={[0, constants.theme.sizes.padding * 2]}>
-          <Button gradient onPress={() => {}}>
+        <Block middle flex={0.9} margin={[0, constants.theme.sizes.padding * 2]}>
+          <Button gradient onPress={() => navigation.navigate('Login')}>
             <Text center>Login</Text>
           </Button>
 
-          <Button shadow onPress={() => {}}>
+          <Button shadow onPress={() => navigation.navigate('Signup')}>
             <Text center>SignUp</Text>
           </Button>
 
-          <Button onPress={() => {}}>
+          <Button
+            onPress={() => {
+              this.setState({ showTerms: true });
+            }}>
             <Text center caption gray>
               Terms of service
             </Text>
           </Button>
-        </Block> */}
+        </Block>
+        {this.state.showTerms && this.renderTermsService()}
       </Block>
     );
   }
@@ -128,7 +194,7 @@ export default Welcome;
 const styles = StyleSheet.create({
   stepsContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: constants.theme.sizes.base * 2.5,
     right: 0,
     left: 0,
   },

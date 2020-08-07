@@ -7,13 +7,14 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 
 import Welcome from './screens/Welcome';
-// import Login from './screens/Login';
-// import Explore from './screens/Explore';
-// import Product from './screens/Product';
-// import Settings from './screens/Settings';
-// import Browse from './screens/Browse';
-// import Signup from './screens/Signup';
-// import Forgot from './screens/Forgot';
+import Login from './screens/Login';
+import Explore from './screens/Explore';
+import Product from './screens/Product';
+import Settings from './screens/Settings';
+import Browse from './screens/Browse';
+import Signup from './screens/Signup';
+import Forgot from './screens/Forgot';
+import * as constants from './constants';
 
 const Stack = createStackNavigator();
 
@@ -65,20 +66,38 @@ export default class App extends React.Component {
         <Stack.Navigator
           initialRouteName="Welcome"
           screenOptions={{
-            headerStyle: { elevation: 0, shadowOpacity: 0 },
-            // headerBackImage: <Image />,
-            // headerBackTitle: null,
-            // headerLeftContainerStyle: {},
-            // headerRightContainerStyle: {},
+            headerStyle: {
+              height: constants.theme.sizes.base * 4,
+              backgroundColor: constants.theme.colors.white,
+              elevation: 0,
+              shadowOpacity: 0,
+            },
+            headerBackImage: () => <Image source={require('./assets/icons/back.png')} />,
+            headerBackTitle: null,
+            headerLeftContainerStyle: {
+              alignItems: 'center',
+              marginLeft: constants.theme.sizes.padding * 1.2,
+              paddingRight: constants.theme.sizes.base,
+            },
+            headerRightContainerStyle: {
+              alignItems: 'center',
+              paddingRight: constants.theme.sizes.base,
+            },
           }}>
           <Stack.Screen name="Welcome" component={Welcome} options={Welcome.navigationOptions} />
-          {/* <Stack.Screen name="Login" component={Login}></Stack.Screen>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={Login.navigationOptions}></Stack.Screen>
           <Stack.Screen name="Explore" component={Explore}></Stack.Screen>
           <Stack.Screen name="Product" component={Product}></Stack.Screen>
           <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
-          <Stack.Screen name="Browse" component={Browse}></Stack.Screen>
+          <Stack.Screen
+            name="Browse"
+            component={Browse}
+            options={Browse.navigationOptions}></Stack.Screen>
           <Stack.Screen name="Signup" component={Signup}></Stack.Screen>
-          <Stack.Screen name="Forgot" component={Forgot}></Stack.Screen> */}
+          <Stack.Screen name="Forgot" component={Forgot}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     );
