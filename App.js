@@ -96,8 +96,14 @@ export default class App extends React.Component {
             name="Browse"
             component={Browse}
             options={Browse.navigationOptions}></Stack.Screen>
-          <Stack.Screen name="Signup" component={Signup}></Stack.Screen>
-          <Stack.Screen name="Forgot" component={Forgot}></Stack.Screen>
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={Signup.navigationOptions}></Stack.Screen>
+          <Stack.Screen
+            name="Forgot"
+            component={Forgot}
+            options={Forgot.navigationOptions}></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Keyboard, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 
 import * as constants from '../constants';
 import { Button, Block, Input, Text } from '../components';
@@ -13,8 +13,8 @@ class Login extends Component {
   };
 
   state = {
-    email: '',
-    password: '',
+    email: VALID_EMAIL,
+    password: VALID_PASSWORD,
     errors: [],
     loading: false,
   };
@@ -57,12 +57,14 @@ class Login extends Component {
           </Text>
           <Block middle>
             <Input
+              error={hasErrors('email')}
               label="Email"
               style={[styles.input, hasErrors('email')]}
               defaultValue={this.state.email}
               onChangeText={(text) => this.setState({ email: text })}
             />
             <Input
+              error={hasErrors('password')}
               secure
               label="Password"
               style={[styles.input, hasErrors('password')]}
@@ -70,12 +72,19 @@ class Login extends Component {
               onChangeText={(text) => this.setState({ password: text })}
             />
             <Button gradient onPress={() => this.handleLogin()}>
-              <Text bold white center>
-                Login
-              </Text>
+              {loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                <Text bold white center>
+                  Login
+                </Text>
+              )}
             </Button>
 
-            <Button onPress={() => {}}>
+            <Button
+              onPress={() => {
+                navigation.navigate('Forgot');
+              }}>
               <Text gray caprion center style={{ textDecorationLine: 'underline' }}>
                 Forgot your password?
               </Text>
