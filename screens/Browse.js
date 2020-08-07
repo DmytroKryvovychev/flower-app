@@ -40,7 +40,7 @@ class Browse extends Component {
           <Text h1 bold>
             Browse
           </Text>
-          <Button onPress={() => navigation.navigate('Settings')}>
+          <Button onPress={() => navigation.navigate('Settings', { profile })}>
             <Image source={profile.avatar} style={styles.avatar} />
           </Button>
         </Block>

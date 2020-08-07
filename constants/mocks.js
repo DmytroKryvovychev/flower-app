@@ -76,7 +76,7 @@ const profile = {
   email: 'jhonny.walker@thedeveloper.com',
   avatar: require('../assets/images/avatar.png'),
   budget: 1000,
-  monthly_cap: 500,
+  monthlyCap: 5000,
   notifications: true,
   newslatter: false,
 };
