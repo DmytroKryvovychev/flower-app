@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 import * as constants from '../constants';
-import { Button, Block, Text } from '../components';
+import { Button, Block, Text, Card, Badge } from '../components';
+
+const { width } = Dimensions.get('window');
 
 class Browse extends Component {
   static navigationOptions = {
@@ -22,7 +24,7 @@ class Browse extends Component {
         key={`tab-${tab}`}
         onPress={() => this.setState({ active: tab })}
         style={[styles.tab, isActive ? styles.active : null]}>
-        <Text title medium gray={!isActive} secondary={isActive}>
+        <Text size={16} medium gray={!isActive} secondary={isActive}>
           {tab}
         </Text>
       </TouchableOpacity>
@@ -30,7 +32,7 @@ class Browse extends Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { navigation, profile, categories } = this.props;
     const tabs = ['Products', 'Inspirations', 'Shop'];
     return (
       <Block style={{ backgroundColor: 'white' }}>
@@ -38,7 +40,7 @@ class Browse extends Component {
           <Text h1 bold>
             Browse
           </Text>
-          <Button>
+          <Button onPress={() => navigation.navigate('Settings')}>
             <Image source={profile.avatar} style={styles.avatar} />
           </Button>
         </Block>
@@ -46,6 +48,30 @@ class Browse extends Component {
         <Block flex={false} row style={styles.tabs}>
           {tabs.map((tab) => this.renderTab(tab))}
         </Block>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ paddingVertical: constants.theme.sizes.base * 2 }}>
+          <Block flex={false} row space="between" style={styles.categories}>
+            {categories.map((category) => (
+              <TouchableOpacity
+                key={`category-${category.id}`}
+                onPress={() => navigation.navigate('Explore', { category })}>
+                <Card shadow center middle style={styles.category}>
+                  <Badge margin={[0, 0, 15]} size={50} color="rgba(41,216,143,0.20)">
+                    <Image source={category.image} />
+                  </Badge>
+                  <Text medium height={20}>
+                    {category.name}
+                  </Text>
+                  <Text gray caption>
+                    {category.count} products
+                  </Text>
+                </Card>
+              </TouchableOpacity>
+            ))}
+          </Block>
+        </ScrollView>
       </Block>
     );
   }
@@ -53,6 +79,7 @@ class Browse extends Component {
 
 Browse.defaultProps = {
   profile: constants.mocks.profile,
+  categories: constants.mocks.categories,
 };
 
 export default Browse;
@@ -78,5 +105,14 @@ const styles = StyleSheet.create({
   active: {
     borderBottomColor: constants.theme.colors.secondary,
     borderBottomWidth: 3,
+  },
+  category: {
+    width: width / 2 - constants.theme.sizes.base * 3,
+    height: 150,
+  },
+  categories: {
+    flexWrap: 'wrap',
+    paddingHorizontal: constants.theme.sizes.base * 2,
+    marginBottom: constants.theme.sizes.base * 3.5,
   },
 });

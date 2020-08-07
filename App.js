@@ -91,7 +91,10 @@ export default class App extends React.Component {
             options={Login.navigationOptions}></Stack.Screen>
           <Stack.Screen name="Explore" component={Explore}></Stack.Screen>
           <Stack.Screen name="Product" component={Product}></Stack.Screen>
-          <Stack.Screen name="Settings" component={Settings}></Stack.Screen>
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={Settings.navigationOptions}></Stack.Screen>
           <Stack.Screen
             name="Browse"
             component={Browse}

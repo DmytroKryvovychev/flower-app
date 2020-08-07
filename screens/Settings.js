@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import * as constants from '../constants';
+import { Button, Block, Text, Card, Badge } from '../components';
 
 export default class Settings extends Component {
+  static navigationOptions = {
+    title: '',
+  };
+
   render() {
     return (
-      <View>
-        <Text> textInComponent </Text>
-      </View>
+      <Block style={{ backgroundColor: 'white' }}>
+        <Text h1 bold>
+          Settings
+        </Text>
+      </Block>
     );
   }
 }
