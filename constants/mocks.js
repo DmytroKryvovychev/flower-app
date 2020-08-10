@@ -50,7 +50,10 @@ const products = [
     description:
       "Houseplants can do more than just bring a splash of green indoors, it turns out ... especially when they're in your bedroom. A famous 1989 NASA study found that such plants were able to reduce indoor air pollutants such as benzene and formaldehyde, at least in a controlled lab environment, and more recent research says plants may make you feel less stressed and more creative. That can never be a bad thing. Here are a few of the best air-purifying plants to consider keeping in your bedroom at home.",
     tags: ['Interior', '27 m2', 'Ideas'],
-    gallery: [
+    images: [
+      require('../assets/images/plants_1.png'),
+      require('../assets/images/plants_2.png'),
+      require('../assets/images/plants_3.png'),
       require('../assets/images/plants_1.png'),
       require('../assets/images/plants_2.png'),
       require('../assets/images/plants_3.png'),
