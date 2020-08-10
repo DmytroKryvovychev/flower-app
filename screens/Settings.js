@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Slider from 'react-native-slider';
 
 import * as constants from '../constants';
@@ -19,13 +19,29 @@ class Settings extends Component {
     profile: {},
   };
 
-  toggleEdit() {
+  toggleEdit(name) {
     const { editing } = this.state;
     this.setState({ editing: !editing ? name : null });
   }
 
-  renderEdit() {
+  handleEdit(name, text) {
+    const { profile } = this.state;
+    profile[name] = text;
+
+    this.setState({ profile });
+  }
+
+  renderEdit(name) {
     const { profile, editing } = this.state;
+    if (editing === name) {
+      return (
+        <TextInput
+          defaultValue={profile[name]}
+          onChangeText={(text) => this.handleEdit([name], text)}
+        />
+      );
+    }
+    return <Text bold>{profile[name]}</Text>;
   }
 
   componentDidMount() {
@@ -35,7 +51,7 @@ class Settings extends Component {
   }
 
   render() {
-    const { profile } = this.state;
+    const { profile, editing } = this.state;
 
     return (
       <Block style={{ backgroundColor: 'white' }}>
@@ -43,7 +59,7 @@ class Settings extends Component {
           <Text middle h1 bold>
             Settings
           </Text>
-          <Button onPress={() => {}}>
+          <Button>
             <Image source={profile.avatar} style={styles.avatar} />
           </Button>
         </Block>
@@ -56,10 +72,9 @@ class Settings extends Component {
                   Username
                 </Text>
                 {this.renderEdit('username')}
-                <Text bold>{profile.username}</Text>
               </Block>
               <Text medium secondary onPress={() => this.toggleEdit('username')}>
-                Edit
+                {editing === 'username' ? 'Save' : 'Edit'}
               </Text>
             </Block>
 
@@ -68,10 +83,10 @@ class Settings extends Component {
                 <Text gray2 style={{ marginBottom: 10 }}>
                   Location
                 </Text>
-                <Text bold>{profile.location}</Text>
+                {this.renderEdit('location')}
               </Block>
-              <Text medium secondary>
-                Edit
+              <Text medium secondary onPress={() => this.toggleEdit('location')}>
+                {editing === 'location' ? 'Save' : 'Edit'}
               </Text>
             </Block>
 

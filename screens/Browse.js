@@ -13,6 +13,18 @@ class Browse extends Component {
 
   state = {
     active: 'Products',
+    categories: [],
+  };
+
+  componentDidMount() {
+    this.setState({ categories: this.props.categories });
+  }
+
+  handleTab = (tab) => {
+    const { categories } = this.props;
+    const filtered = categories.filter((category) => category.tags.includes(tab.toLowerCase()));
+
+    this.setState({ active: tab, categories: filtered });
   };
 
   renderTab(tab) {
@@ -22,7 +34,7 @@ class Browse extends Component {
     return (
       <TouchableOpacity
         key={`tab-${tab}`}
-        onPress={() => this.setState({ active: tab })}
+        onPress={() => this.handleTab(tab)}
         style={[styles.tab, isActive ? styles.active : null]}>
         <Text size={16} medium gray={!isActive} secondary={isActive}>
           {tab}
@@ -32,8 +44,10 @@ class Browse extends Component {
   }
 
   render() {
-    const { navigation, profile, categories } = this.props;
+    const { navigation, profile } = this.props;
+    const { categories } = this.state;
     const tabs = ['Products', 'Inspirations', 'Shop'];
+
     return (
       <Block style={{ backgroundColor: 'white' }}>
         <Block flex={false} row center space="between" style={styles.header}>
